@@ -3,6 +3,10 @@ __pycache__/
 
 # Text backup files
 *.backup
+*.bak
 
 # Database
 *.sqlite3
+
+#settings
+src/recipe_app/settings.py

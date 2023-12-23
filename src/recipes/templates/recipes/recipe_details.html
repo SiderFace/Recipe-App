@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+   <head>
+
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      {% load static %}
+      <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
+      <title>{{ recipe.recipe_name }}</title>
+   </head>
+
+   <body>
+
+      <header>
+         <h1>{{ recipe.recipe_name }}</h1>
+
+         <a class="logout-button" href="{% url 'recipes:user_logout' %}">Logout</a>
+      </header>
+
+      <main>
+         <h3>{{ recipe.description_details }}</h3>
+ 
+         <div class="recipe-details">
+            <img 
+               src="{{ recipe.image.url }}" 
+               alt="{{ recipe.recipe_name }}" 
+               style="max-width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;"
+            >
+
+            <div class="recipe-details-section">
+               <h2>Ingredients: </h2>
+               <p>{{ recipe.ingredients }}</p>
+            </div>
+            <div class="recipe-details-section">
+               <h2>Cooking Time: </h2>
+               <p>{{ recipe.cooking_time }} minutes</p>
+            </div>
+            <div class="recipe-details-section">
+               <h2>Difficulty: </h2>
+               <p>{{ recipe.difficulty_rating }}</p>
+            </div>
+         </div>
+      </main>
+
+      <footer>
+         <p>&copy; 2023 Siders & CareerFoundry Recipe App</p>
+      </footer>
+
+   </body>
+
+</html>

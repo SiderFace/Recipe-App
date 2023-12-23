@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      {% load static %}
+      <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+
+      <title>Your Recipes</title>
+   </head>
+
+   <body>
+
+      <header>
+         <h1>Find Recipes</h1>
+
+         <a class="logout-button" href="{% url 'recipes:user_logout' %}">Logout</a>
+      </header>
+
+      <main>
+         <h3>Search and filter the available recipes by entering an ingredient:</h3>
+     
+         <form method="get" action="{% url 'recipes:recipe_list' %}">
+            {{ form.ingredients }}
+            <button class="login-button" type="submit">Search</button>
+            <br> <br>
+            <label for="{{ form.show_all.id_for_label }}">Show All</label>
+            {{ form.show_all }}
+         </form>
+         <br>
+         <p>Click any of your recipes for the full recipe description</p>
+     
+         {% if recipes %}
+         <div class="displayed-recipes">
+             {% for recipe in recipes %}
+                 <div class="recipe-card">
+                     <a href="{% url 'recipes:recipe_detail' recipe.id %}">
+                         <img src="{{ recipe.image.url }}" alt="{{ recipe.recipe_name }}" width="200" height="150">
+                         <p>{{ recipe.recipe_name }}</p>
+                     </a>
+                 </div>
+             {% endfor %}
+         </div>
+         {% endif %}
+         <br>
+         <div class="charts">
+             <img src="data:image/png;base64,{{ bar_chart_img }}" alt="Bar Chart">
+             <img src="data:image/png;base64,{{ pie_chart_img }}" alt="Pie Chart">
+             <img src="data:image/png;base64,{{ line_chart_img }}" alt="Line Chart">
+         </div>
+     
+     </main>
+
+      <footer>
+         <p>&copy; 2023 Siders & CareerFoundry Recipe App</p>
+      </footer>
+
+   </body>
+
+</html>

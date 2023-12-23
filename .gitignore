@@ -7,3 +7,6 @@ __pycache__/
 
 # Database
 *.sqlite3
+
+#settings
+src/recipe_app/settings.py

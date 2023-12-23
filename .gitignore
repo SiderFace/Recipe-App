@@ -10,3 +10,4 @@ __pycache__/
 
 #settings
 src/recipe_app/settings.py
+settings.py

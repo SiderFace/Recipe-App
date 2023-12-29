@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   {% load static %}
+   <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+   <title>Add Recipe</title>
+</head>
+
+<body>
+
+   <header>
+      <h1>Add Recipe</h1>
+   </header>
+
+   <main>
+      <form method="post" enctype="multipart/form-data">
+         {% csrf_token %}
+         <label for="id_recipe_name">Recipe Name:</label>
+         {{ form.recipe_name }}
+         <br>
+         <label for="id_ingredients">Ingredients:</label>
+         {{ form.ingredients }}
+         <br>
+         <label for="id_cooking_time">Cooking Time:</label>
+         {{ form.cooking_time }}
+         <br>
+         <label for="id_description_details">Description Details:</label>
+         {{ form.description_details }}
+         <br>
+         <label for="id_image">Image:</label>
+         {{ form.image }}
+         <br>
+         <button class="login-button" type="submit">Add Recipe</button>
+      </form>
+   </main>
+
+   <footer>
+      <p>&copy; 2023 Siders & CareerFoundry Recipe App</p>
+   </footer>
+
+</body>
+
+</html>

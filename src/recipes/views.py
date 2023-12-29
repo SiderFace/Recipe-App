@@ -6,7 +6,7 @@ from django.contrib import messages
 
 from django.db.models import Q
 from .models import Recipe
-from .forms import RecipeSearchForm
+from .forms import RecipeSearchForm, AddRecipeForm
 
 from django.http import JsonResponse
 import pandas as pd
@@ -30,7 +30,6 @@ def recipe_detail(request, recipe_id):
       recipe = get_object_or_404(Recipe, pk=recipe_id)
       return render(request, 'recipes/recipe_details.html', {'recipe': recipe})
    else:
-      # Redirect to login page for non-authenticated users
       return redirect('recipes:user_login')
 
 def user_login(request):
@@ -80,24 +79,20 @@ def recipe_search(request):
 
 
 def generate_charts_data(recipes):
-    # Create a DataFrame from the recipes
-    data = {
-        'Recipe Name': [recipe.recipe_name for recipe in recipes],
-        'Cooking Time': [recipe.cooking_time for recipe in recipes],
-    }
-    df = pd.DataFrame(data)
+   data = {
+      'Recipe Name': [recipe.recipe_name for recipe in recipes],
+      'Cooking Time': [recipe.cooking_time for recipe in recipes],
+   }
+   df = pd.DataFrame(data)
 
-    # Process data and generate charts
-    # (You can customize this part based on your specific requirements)
-    # For demonstration purposes, let's assume you want to return base64-encoded images
-    bar_chart_img_base64, pie_chart_img_base64, line_chart_img_base64 = generate_charts(df)
+   bar_chart_img_base64, pie_chart_img_base64, line_chart_img_base64 = generate_charts(df)
 
-    return bar_chart_img_base64, pie_chart_img_base64, line_chart_img_base64
+   return bar_chart_img_base64, pie_chart_img_base64, line_chart_img_base64
 
 def generate_charts(df):
    plt.switch_backend('agg')
 
-   # Data for data visualization
+   # Data
    recipe_names = df['Recipe Name']
    cooking_times = df['Cooking Time']
 
@@ -132,13 +127,27 @@ def generate_charts(df):
    plt.savefig(line_chart_img, format='png')
    plt.close()
 
-   # Convert images to base64
+   # Convert images
    bar_chart_img_base64 = base64.b64encode(bar_chart_img.getvalue()).decode('utf-8')
    pie_chart_img_base64 = base64.b64encode(pie_chart_img.getvalue()).decode('utf-8')
    line_chart_img_base64 = base64.b64encode(line_chart_img.getvalue()).decode('utf-8')
 
    return bar_chart_img_base64, pie_chart_img_base64, line_chart_img_base64
 
+@login_required
+def add_recipe(request):
+   if request.method == 'POST':
+      form = AddRecipeForm(request.POST, request.FILES)
+      if form.is_valid():
+         form.save()
+         messages.success(request, "Recipe added successfully!")
+         return redirect('recipes:recipe_list')
+      else:
+         messages.error(request, "Error adding the recipe. Please check the form.")
+   else:
+      form = AddRecipeForm()
+
+   return render(request, 'recipes/add_recipe.html', {'form': form})
 
 @login_required
 def recipe_list(request):
@@ -151,42 +160,40 @@ def recipe_list(request):
          show_all = form.cleaned_data.get('show_all')
 
          if show_all:
-               recipes = Recipe.objects.all()
+            recipes = Recipe.objects.all()
          elif search_query:
-               recipes = Recipe.objects.filter(
-                  Q(ingredients__icontains=search_query) | Q(recipe_name__icontains=search_query)
-               )
+            recipes = Recipe.objects.filter(
+               Q(ingredients__icontains=search_query) | Q(recipe_name__icontains=search_query)
+            )
 
-         # Generate charts data
+         # Generate charts
          bar_chart_img_base64, pie_chart_img_base64, line_chart_img_base64 = generate_charts_data(recipes)
 
-         # Render the entire HTML including both recipe list, search results, and charts
+         # Render
          return render(
-               request,
-               'recipes/recipe_list.html',
-               {
-                  'recipes': recipes,
-                  'bar_chart_img': bar_chart_img_base64,
-                  'pie_chart_img': pie_chart_img_base64,
-                  'line_chart_img': line_chart_img_base64,
-                  'form': form,
-               }
+            request,
+            'recipes/recipe_list.html',
+            {
+               'recipes': recipes,
+               'bar_chart_img': bar_chart_img_base64,
+               'pie_chart_img': pie_chart_img_base64,
+               'line_chart_img': line_chart_img_base64,
+               'form': form,
+            }
          )
 
-      # If the form is not valid, show all recipes and charts
       bar_chart_img_base64, pie_chart_img_base64, line_chart_img_base64 = generate_charts_data(recipes)
 
       return render(
          request,
          'recipes/recipe_list.html',
          {
-               'recipes': recipes,
-               'bar_chart_img': bar_chart_img_base64,
-               'pie_chart_img': pie_chart_img_base64,
-               'line_chart_img': line_chart_img_base64,
-               'form': form,
+            'recipes': recipes,
+            'bar_chart_img': bar_chart_img_base64,
+            'pie_chart_img': pie_chart_img_base64,
+            'line_chart_img': line_chart_img_base64,
+            'form': form,
          }
       )
    else:
-      # Redirect to login page for non-authenticated users
       return redirect('recipes:user_login')

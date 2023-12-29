@@ -68,6 +68,9 @@ button {
    border: none;
    border-radius: 5px;
    cursor: pointer;
+
+   width: 50%;
+   margin-top: 15px;
 }
 
 button:hover {
@@ -82,9 +85,25 @@ button:hover {
    font-size: 16px;
 }
 
-form {
-   margin: 20px;
+/* form {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }
+
+form label {
+   margin-top: 10px;
+   font-size: 18px;
+}
+
+form input, 
+form textarea {
+   width: 40%;
+   padding: 8px;
+   margin: 8px 0;
+   box-sizing: border-box;
+   border-radius: 5px;
+} */
 
 main {
    padding: 2em;

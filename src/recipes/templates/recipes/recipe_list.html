@@ -30,6 +30,8 @@
             {{ form.show_all }}
          </form>
          <br>
+         <a href="{% url 'recipes:add_recipe' %}" class="login-button">Add Recipe</a>
+         <br>
          <p>Click any of your recipes for the full recipe description</p>
      
          {% if recipes %}

@@ -6,9 +6,9 @@ class Recipe(models.Model):
    recipe_name = models.CharField(max_length=255)
    ingredients = models.TextField()
    cooking_time = models.IntegerField()
-   difficulty_rating = models.CharField(max_length=50)
+   difficulty_rating = models.CharField(max_length=50, blank=True, null=True)
    description_details = models.TextField()
-   image = models.ImageField(upload_to='recipe_images/', default='No_image_available.jpg')
+   image = models.ImageField(upload_to='recipe_images/', default='No_image_available.jpg', blank=True, null=True)
 
    def __str__(self):
       return self.recipe_name

@@ -62,8 +62,7 @@ greenlet==3.0.1
     # via
     #   -r requirements.in
     #   sqlalchemy
-gunicorn==21.2.0
-    # via -r requirements.in
+
 importlib-resources==6.1.1
     # via
     #   -r requirements.in
@@ -186,7 +185,7 @@ virtualenv==20.24.6
     #   virtualenvwrapper-win
 virtualenvwrapper-win==1.2.7
     # via -r requirements.in
-    
+
 waitress==2.1.2
 
 wcwidth==0.2.9

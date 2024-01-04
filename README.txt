@@ -8,10 +8,10 @@ Tech Stack:
 - HTML - templates for rendering and formay
 - CSS - Interface styling and layout
 - MySQL - database handling
-- 
+- Heroku
 
 
-User Experince:
+User Experience:
 
 - Users are prompted to log in to the site with the credentials that they set up with the admin
 	-In-development: Users will be prompted to register with the site to create their own personal profile.
